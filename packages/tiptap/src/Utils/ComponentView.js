@@ -29,7 +29,8 @@ export default class ComponentView {
   }
 
   createDOM() {
-    const Component = Vue.extend(this.component)
+    let vue = window.vue || Vue // hack!!! somehow only this.parent has real access to context
+    const Component = vue.extend(this.component)
     const props = {
       editor: this.editor,
       node: this.node,
@@ -48,7 +49,9 @@ export default class ComponentView {
     this.vm = new Component({
       parent: this.parent,
       propsData: props,
-    }).$mount()
+    })
+
+    this.vm.$mount()
 
     return this.vm.$el
   }
@@ -84,9 +87,10 @@ export default class ComponentView {
     const originalSilent = Vue.config.silent
     Vue.config.silent = true
 
-    Object.entries(props).forEach(([key, value]) => {
-      this.vm._props[key] = value
-    })
+    Object.entries(props)
+      .forEach(([key, value]) => {
+        this.vm._props[key] = value
+      })
     // this.vm._props.node = node
     // this.vm._props.decorations = decorations
     Vue.config.silent = originalSilent

@@ -47,13 +47,20 @@ export default class Editor extends Emitter {
       dropCursor: {},
       parseOptions: {},
       injectCSS: true,
-      onInit: () => {},
-      onTransaction: () => {},
-      onUpdate: () => {},
-      onFocus: () => {},
-      onBlur: () => {},
-      onPaste: () => {},
-      onDrop: () => {},
+      onInit: () => {
+      },
+      onTransaction: () => {
+      },
+      onUpdate: () => {
+      },
+      onFocus: () => {
+      },
+      onBlur: () => {
+      },
+      onPaste: () => {
+      },
+      onDrop: () => {
+      },
     }
 
     this.events = [
@@ -75,7 +82,10 @@ export default class Editor extends Emitter {
       ...options,
     })
     this.focused = false
-    this.selection = { from: 0, to: 0 }
+    this.selection = {
+      from: 0,
+      to: 0,
+    }
     this.element = document.createElement('div')
     this.extensions = this.createExtensions()
     this.nodes = this.createNodes()
@@ -98,7 +108,8 @@ export default class Editor extends Emitter {
     }
 
     this.events.forEach(name => {
-      this.on(name, this.options[camelCase(`on ${name}`)] || (() => {}))
+      this.on(name, this.options[camelCase(`on ${name}`)] || (() => {
+      }))
     })
 
     this.emit('init', {
@@ -270,7 +281,8 @@ export default class Editor extends Emitter {
       const element = document.createElement('div')
       element.innerHTML = content.trim()
 
-      return DOMParser.fromSchema(this.schema).parse(element, parseOptions)
+      return DOMParser.fromSchema(this.schema)
+        .parse(element, parseOptions)
     }
 
     return false
@@ -279,8 +291,12 @@ export default class Editor extends Emitter {
   createView() {
     return new EditorView(this.element, {
       state: this.createState(),
-      handlePaste: (...args) => { this.emit('paste', ...args) },
-      handleDrop: (...args) => { this.emit('drop', ...args) },
+      handlePaste: (...args) => {
+        this.emit('paste', ...args)
+      },
+      handleDrop: (...args) => {
+        this.emit('drop', ...args)
+      },
       dispatchTransaction: this.dispatchTransaction.bind(this),
     })
   }

@@ -22,22 +22,22 @@ export default class ExtensionManager {
   get options() {
     const { view } = this
     return this.extensions
-        .reduce((nodes, extension) => ({
-          ...nodes,
-          [extension.name]: new Proxy(extension.options, {
-            set(obj, prop, value) {
-              const changed = (obj[prop] !== value)
+      .reduce((nodes, extension) => ({
+        ...nodes,
+        [extension.name]: new Proxy(extension.options, {
+          set(obj, prop, value) {
+            const changed = (obj[prop] !== value)
 
-              Object.assign(obj, { [prop]: value })
+            Object.assign(obj, { [prop]: value })
 
-              if (changed) {
-                extension.update(view)
-              }
+            if (changed) {
+              extension.update(view)
+            }
 
-              return true
-            },
-          }),
-        }), {})
+            return true
+          },
+        }),
+      }), {})
   }
 
   get marks() {
@@ -82,7 +82,7 @@ export default class ExtensionManager {
     if (!(excludedExtensions instanceof Array) && excludedExtensions) return []
 
     const allowedExtensions = (excludedExtensions instanceof Array) ? this.extensions
-        .filter(extension => !excludedExtensions.includes(extension.name)) : this.extensions
+      .filter(extension => !excludedExtensions.includes(extension.name)) : this.extensions
 
     const extensionInputRules = allowedExtensions
       .filter(extension => ['extension'].includes(extension.type))
@@ -110,7 +110,7 @@ export default class ExtensionManager {
     if (!(excludedExtensions instanceof Array) && excludedExtensions) return []
 
     const allowedExtensions = (excludedExtensions instanceof Array) ? this.extensions
-        .filter(extension => !excludedExtensions.includes(extension.name)) : this.extensions
+      .filter(extension => !excludedExtensions.includes(extension.name)) : this.extensions
 
     const extensionPasteRules = allowedExtensions
       .filter(extension => ['extension'].includes(extension.type))
@@ -165,9 +165,10 @@ export default class ExtensionManager {
         }
 
         if (typeof value === 'object') {
-          Object.entries(value).forEach(([commandName, commandValue]) => {
-            handle(commandName, commandValue)
-          })
+          Object.entries(value)
+            .forEach(([commandName, commandValue]) => {
+              handle(commandName, commandValue)
+            })
         } else {
           handle(name, value)
         }

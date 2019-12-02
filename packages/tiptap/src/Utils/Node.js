@@ -19,7 +19,8 @@ export default class Node extends Extension {
   }
 
   command() {
-    return () => {}
+    return () => {
+    }
   }
 
 }

@@ -24,7 +24,8 @@ export default class Extension {
   }
 
   get update() {
-    return () => {}
+    return () => {
+    }
   }
 
   get defaultOptions() {
